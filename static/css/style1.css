@@ -1,0 +1,786 @@
+/* AI Prompt Master - Clean Modern UI
+   Professional, Fast, Accessible
+   Best Practices Implementation
+*/
+
+
+/* =====================================
+   CSS Variables - Easy Customization
+   ===================================== */
+
+:root {
+    /* Primary Colors */
+    --primary: #2563eb;
+    /* Blue */
+    --primary-dark: #1e40af;
+    --primary-light: #3b82f6;
+    /* Secondary Colors */
+    --secondary: #10b981;
+    /* Green */
+    --secondary-dark: #059669;
+    /* Neutral Colors */
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-400: #9ca3af;
+    --gray-500: #6b7280;
+    --gray-600: #4b5563;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
+    --gray-900: #111827;
+    /* Status Colors */
+    --success: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --info: #3b82f6;
+    /* Background */
+    --bg-body: #ffffff;
+    --bg-surface: #f9fafb;
+    --bg-hover: #f3f4f6;
+    /* Text */
+    --text-primary: #111827;
+    --text-secondary: #6b7280;
+    --text-muted: #9ca3af;
+    /* Borders */
+    --border-color: #e5e7eb;
+    --border-radius: 8px;
+    --border-radius-lg: 12px;
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    /* Transitions */
+    --transition: all 0.2s ease;
+}
+
+
+/* =====================================
+   Reset & Base Styles
+   ===================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background-color: var(--bg-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* =====================================
+   Typography
+   ===================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.75rem;
+}
+
+h4 {
+    font-size: 1.5rem;
+}
+
+h5 {
+    font-size: 1.25rem;
+}
+
+h6 {
+    font-size: 1rem;
+}
+
+p {
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+}
+
+a {
+    color: var(--primary);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+
+/* =====================================
+   Navbar
+   ===================================== */
+
+.navbar {
+    background-color: #ffffff !important;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary) !important;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.navbar-brand i {
+    color: var(--primary);
+}
+
+.navbar-brand:hover {
+    color: var(--primary-dark) !important;
+}
+
+.nav-link {
+    color: var(--text-secondary) !important;
+    font-weight: 500;
+    padding: 0.5rem 1rem !important;
+    transition: var(--transition);
+}
+
+.nav-link:hover {
+    color: var(--primary) !important;
+}
+
+.nav-link.active {
+    color: var(--primary) !important;
+}
+
+
+/* Credits Display */
+
+.nav-link .badge {
+    background-color: var(--warning);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-weight: 600;
+    margin-left: 0.5rem;
+}
+
+
+/* =====================================
+   Buttons
+   ===================================== */
+
+.btn {
+    padding: 0.625rem 1.25rem;
+    font-weight: 600;
+    border-radius: var(--border-radius);
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+}
+
+.btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.btn-success {
+    background-color: var(--secondary);
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: var(--secondary-dark);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-outline-success {
+    background-color: transparent;
+    border: 2px solid var(--secondary);
+    color: var(--secondary);
+}
+
+.btn-outline-success:hover {
+    background-color: var(--secondary);
+    color: white;
+}
+
+.btn-outline-primary {
+    background-color: transparent;
+    border: 2px solid var(--primary);
+    color: var(--primary);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary);
+    color: white;
+}
+
+.btn-light {
+    background-color: white;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+.btn-light:hover {
+    background-color: var(--bg-hover);
+}
+
+.btn-lg {
+    padding: 0.875rem 1.75rem;
+    font-size: 1.125rem;
+}
+
+.btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+
+/* =====================================
+   Cards
+   ===================================== */
+
+.card {
+    background-color: white;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    overflow: hidden;
+}
+
+.card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+}
+
+.card-text {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+
+/* =====================================
+   Hero Section
+   ===================================== */
+
+.hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 4rem 0;
+    position: relative;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.1;
+}
+
+.hero-section .container {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-section h1 {
+    color: white;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.hero-section .lead {
+    font-size: 1.25rem;
+    opacity: 0.95;
+    margin-bottom: 2rem;
+}
+
+
+/* =====================================
+   Features Section
+   ===================================== */
+
+.features-section {
+    padding: 4rem 0;
+    background-color: var(--bg-surface);
+}
+
+.feature-card {
+    text-align: center;
+    padding: 2rem;
+    height: 100%;
+}
+
+.feature-card i {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.feature-card h5 {
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.feature-card p {
+    color: var(--text-secondary);
+}
+
+
+/* =====================================
+   Forms
+   ===================================== */
+
+.form-control {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+    background-color: white;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 120px;
+}
+
+
+/* =====================================
+   Alerts
+   ===================================== */
+
+.alert {
+    padding: 1rem 1.25rem;
+    border-radius: var(--border-radius);
+    border: 1px solid transparent;
+    margin-bottom: 1rem;
+}
+
+.alert-success {
+    background-color: #d1fae5;
+    border-color: #a7f3d0;
+    color: #065f46;
+}
+
+.alert-danger {
+    background-color: #fee2e2;
+    border-color: #fecaca;
+    color: #991b1b;
+}
+
+.alert-info {
+    background-color: #dbeafe;
+    border-color: #bfdbfe;
+    color: #1e40af;
+}
+
+.alert-warning {
+    background-color: #fef3c7;
+    border-color: #fde68a;
+    color: #92400e;
+}
+
+.alert i {
+    margin-right: 0.5rem;
+}
+
+
+/* =====================================
+   Badges
+   ===================================== */
+
+.badge {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.badge.bg-success {
+    background-color: var(--success);
+    color: white;
+}
+
+.badge.bg-primary {
+    background-color: var(--primary);
+    color: white;
+}
+
+.badge.bg-secondary {
+    background-color: var(--gray-500);
+    color: white;
+}
+
+.badge.bg-warning {
+    background-color: var(--warning);
+    color: white;
+}
+
+
+/* =====================================
+   Stats / Counters
+   ===================================== */
+
+.stat-card {
+    text-align: center;
+    padding: 2rem;
+    background: white;
+    border-radius: var(--border-radius-lg);
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+}
+
+.stat-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}
+
+.stat-card .stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+
+.stat-card .stat-label {
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+
+/* =====================================
+   Footer
+   ===================================== */
+
+footer {
+    background-color: var(--gray-900);
+    color: white;
+    padding: 2rem 0;
+    margin-top: 4rem;
+}
+
+footer p {
+    color: var(--gray-400);
+    margin-bottom: 0.5rem;
+}
+
+footer small {
+    color: var(--gray-500);
+}
+
+
+/* =====================================
+   Utilities
+   ===================================== */
+
+.text-primary {
+    color: var(--primary) !important;
+}
+
+.text-secondary {
+    color: var(--text-secondary) !important;
+}
+
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+.text-success {
+    color: var(--success) !important;
+}
+
+.text-danger {
+    color: var(--danger) !important;
+}
+
+.text-warning {
+    color: var(--warning) !important;
+}
+
+.bg-primary {
+    background-color: var(--primary) !important;
+}
+
+.bg-secondary {
+    background-color: var(--gray-100) !important;
+}
+
+.bg-success {
+    background-color: var(--success) !important;
+}
+
+.bg-light {
+    background-color: var(--bg-surface) !important;
+}
+
+.shadow {
+    box-shadow: var(--shadow);
+}
+
+.shadow-sm {
+    box-shadow: var(--shadow-sm);
+}
+
+.shadow-md {
+    box-shadow: var(--shadow-md);
+}
+
+.shadow-lg {
+    box-shadow: var(--shadow-lg);
+}
+
+
+/* Spacing Utilities */
+
+.mb-1 {
+    margin-bottom: 0.25rem;
+}
+
+.mb-2 {
+    margin-bottom: 0.5rem;
+}
+
+.mb-3 {
+    margin-bottom: 1rem;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem;
+}
+
+.mb-5 {
+    margin-bottom: 3rem;
+}
+
+.mt-1 {
+    margin-top: 0.25rem;
+}
+
+.mt-2 {
+    margin-top: 0.5rem;
+}
+
+.mt-3 {
+    margin-top: 1rem;
+}
+
+.mt-4 {
+    margin-top: 1.5rem;
+}
+
+.mt-5 {
+    margin-top: 3rem;
+}
+
+.p-3 {
+    padding: 1rem;
+}
+
+.p-4 {
+    padding: 1.5rem;
+}
+
+.p-5 {
+    padding: 3rem;
+}
+
+
+/* =====================================
+   Loading States
+   ===================================== */
+
+.spinner {
+    display: inline-block;
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top-color: var(--primary);
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* =====================================
+   Responsive Design
+   ===================================== */
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+    h2 {
+        font-size: 1.75rem;
+    }
+    h3 {
+        font-size: 1.5rem;
+    }
+    .hero-section {
+        padding: 3rem 0;
+    }
+    .hero-section h1 {
+        font-size: 1.75rem;
+    }
+    .hero-section .lead {
+        font-size: 1.125rem;
+    }
+    .btn-lg {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+    }
+    .stat-card .stat-value {
+        font-size: 2rem;
+    }
+}
+
+
+/* =====================================
+   Accessibility
+   ===================================== */
+
+*:focus {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+
+/* =====================================
+   Print Styles
+   ===================================== */
+
+@media print {
+    .navbar,
+    footer,
+    .btn {
+        display: none;
+    }
+}
+
+
+/* =====================================
+   Custom Scrollbar
+   ===================================== */
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--gray-100);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--gray-400);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-500);
+}
+
+
+/* =====================================
+   Selection
+   ===================================== */
+
+::selection {
+    background-color: var(--primary);
+    color: white;
+}
+
+::-moz-selection {
+    background-color: var(--primary);
+    color: white;
+}

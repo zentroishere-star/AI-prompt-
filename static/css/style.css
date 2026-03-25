@@ -1,0 +1,183 @@
+/* AI Prompt Optimizer - Custom Styles */
+
+:root {
+    --primary-green: #198754;
+    --light-green: #e8f5e9;
+    --dark-green: #0C4B33;
+}
+
+body {
+    font-family: 'Inter', 'Noto Sans Tamil', sans-serif;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+
+/* Navbar Customization */
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.navbar-brand i {
+    margin-right: 8px;
+}
+
+
+/* Cards */
+
+.card {
+    border: none;
+    border-radius: 12px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1) !important;
+}
+
+.card-header {
+    border-radius: 12px 12px 0 0 !important;
+    font-weight: 600;
+}
+
+
+/* Buttons */
+
+.btn {
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+    border: none;
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, var(--dark-green) 0%, var(--primary-green) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(25, 135, 84, 0.3);
+}
+
+
+/* Form Elements */
+
+textarea.form-control,
+input.form-control {
+    border-radius: 8px;
+    border: 2px solid #dee2e6;
+    transition: border-color 0.3s;
+}
+
+textarea.form-control:focus,
+input.form-control:focus {
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.15);
+}
+
+
+/* Alert Customization */
+
+.alert {
+    border-radius: 8px;
+    border: none;
+}
+
+
+/* Badge Customization */
+
+.badge {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+
+/* Loading Spinner */
+
+.spinner-border {
+    border-width: 4px;
+}
+
+
+/* Tamil Font Support */
+
+.tamil-text {
+    font-family: 'Noto Sans Tamil', sans-serif;
+}
+
+
+/* Custom scrollbar */
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-green);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--dark-green);
+}
+
+
+/* Table improvements */
+
+.table-hover tbody tr:hover {
+    background-color: var(--light-green);
+    cursor: pointer;
+}
+
+
+/* Responsive adjustments */
+
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+    .card-body {
+        padding: 1rem !important;
+    }
+}
+
+
+/* Footer */
+
+footer {
+    margin-top: auto;
+}
+
+
+/* Animations */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}

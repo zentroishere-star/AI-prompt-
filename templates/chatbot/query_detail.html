@@ -1,0 +1,218 @@
+{% extends 'base.html' %} {% block title %}Query Details - AI Prompt Optimizer{% endblock %} {% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <!-- Back Button -->
+            <div class="mb-3">
+                <a href="{% url 'history' %}" class="btn btn-outline-secondary btn-sm">
+                    <i class="fas fa-arrow-left"></i> Back to History
+                </a>
+            </div>
+
+            <!-- Query Details Card -->
+            <div class="card shadow-lg mb-4">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-eye"></i> Query Details
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <!-- Date Info -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <small class="text-muted"><i class="fas fa-calendar"></i> Date:</small>
+                            <p class="fw-bold">{{ query.created_at|date:"M d, Y h:i A" }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <small class="text-muted"><i class="fas fa-robot"></i> Model:</small>
+                            <p class="fw-bold"><span class="badge bg-dark">{{ query.selected_model }}</span></p>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- Original Query -->
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <label class="form-label fw-bold mb-0">
+                                <i class="fas fa-keyboard"></i> Original Query:
+                            </label>
+                            <button class="btn btn-sm btn-outline-primary" onclick="speakText('{{ query.original_input }}', '{{ query.detected_language }}')">
+                                <i class="fas fa-volume-up"></i> Listen
+                            </button>
+                        </div>
+                        <div class="alert alert-light border">
+                            <p class="mb-0" style="font-size: 1.05rem; line-height: 1.6;">{{ query.original_input }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Detection Info -->
+                    <div class="alert alert-info">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong><i class="fas fa-language"></i> Detected Language:</strong>
+                                <span class="badge bg-primary ms-2">{{ query.get_detected_language_display }}</span>
+                            </div>
+                            <div class="col-md-6">
+                                <strong><i class="fas fa-bullseye"></i> Detected Intent:</strong>
+                                <span class="badge bg-info ms-2">{{ query.get_detected_intent_display }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Enhanced Prompt -->
+                    <div class="card mb-3 border-success">
+                        <div class="card-header bg-success text-white">
+                            <i class="fas fa-check-circle"></i> Enhanced Prompt
+                        </div>
+                        <div class="card-body">
+                            <pre style="background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #198754; white-space: pre-wrap; font-family: 'Courier New', monospace; font-size: 0.9rem;">{{ query.enhanced_prompt }}</pre>
+                            <button class="btn btn-sm btn-outline-success" onclick="copyToClipboard('{{ query.enhanced_prompt }}')">
+                                <i class="fas fa-copy"></i> Copy Prompt
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- AI Response -->
+                    <div class="card mb-3 border-primary">
+                        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                            <span><i class="fas fa-robot"></i> AI Response</span>
+                            <div>
+                                <button class="btn btn-sm btn-light" id="speakDetailBtn" onclick="speakDetailResponse()">
+                                    <i class="fas fa-volume-up"></i> Listen
+                                </button>
+                                <button class="btn btn-sm btn-light" id="stopDetailBtn" style="display:none;" onclick="stopSpeakDetail()">
+                                    <i class="fas fa-stop"></i> Stop
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="aiResponseDetail" style="line-height: 1.8; font-size: 1rem;">{{ query.ai_response }}</div>
+                        </div>
+                    </div>
+
+                    <!-- Re-chat Section -->
+                    <hr>
+                    <div class="mt-4">
+                        <h5><i class="fas fa-redo"></i> Re-chat with the same question:</h5>
+                        <p class="text-muted">Click the button below to go back to the dashboard with this query pre-filled.</p>
+                        <button class="btn btn-success btn-lg" id="rechatBtn">
+                            <i class="fas fa-comments"></i> Re-chat This Question
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Copy to clipboard function
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            alert('Copied to clipboard!');
+        }).catch(err => {
+            alert('Failed to copy to clipboard');
+        });
+    }
+
+    // Text-to-Speech function
+    function speakText(text, language) {
+        if (!('speechSynthesis' in window)) {
+            alert('Text-to-Speech not supported in this browser');
+            return;
+        }
+
+        speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(text);
+
+        // Set language based on detected language
+        if (language === 'tamil') {
+            utterance.lang = 'ta-IN';
+        } else if (language === 'tanglish') {
+            utterance.lang = 'en-IN';
+        } else {
+            utterance.lang = 'en-US';
+        }
+
+        utterance.rate = 0.9;
+        utterance.pitch = 1;
+        utterance.volume = 1;
+
+        utterance.onerror = function(event) {
+            console.error('Speech synthesis error:', event.error);
+            alert('Error: ' + event.error);
+        };
+
+        speechSynthesis.speak(utterance);
+    }
+
+    // Speak AI Response
+    function speakDetailResponse() {
+        const responseText = document.getElementById('aiResponseDetail').innerText;
+        const detectedLang = '{{ query.detected_language }}';
+
+        if (!responseText || responseText.trim() === '') {
+            alert('No response to read!');
+            return;
+        }
+
+        if (!('speechSynthesis' in window)) {
+            alert('Text-to-Speech not supported in this browser');
+            return;
+        }
+
+        speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(responseText);
+
+        if (detectedLang === 'tamil') {
+            utterance.lang = 'ta-IN';
+        } else if (detectedLang === 'tanglish') {
+            utterance.lang = 'en-IN';
+        } else {
+            utterance.lang = 'en-US';
+        }
+
+        utterance.rate = 0.9;
+        utterance.pitch = 1;
+        utterance.volume = 1;
+
+        utterance.onstart = function() {
+            document.getElementById('speakDetailBtn').style.display = 'none';
+            document.getElementById('stopDetailBtn').style.display = 'inline-block';
+        };
+
+        utterance.onend = function() {
+            document.getElementById('speakDetailBtn').style.display = 'inline-block';
+            document.getElementById('stopDetailBtn').style.display = 'none';
+        };
+
+        utterance.onerror = function(event) {
+            console.error('Speech synthesis error:', event.error);
+            alert('Error: ' + event.error);
+            document.getElementById('speakDetailBtn').style.display = 'inline-block';
+            document.getElementById('stopDetailBtn').style.display = 'none';
+        };
+
+        speechSynthesis.speak(utterance);
+    }
+
+    // Stop speaking
+    function stopSpeakDetail() {
+        if ('speechSynthesis' in window) {
+            speechSynthesis.cancel();
+            document.getElementById('speakDetailBtn').style.display = 'inline-block';
+            document.getElementById('stopDetailBtn').style.display = 'none';
+        }
+    }
+
+    // Re-chat button
+    document.getElementById('rechatBtn').addEventListener('click', function() {
+        const originalQuery = `{{ query.original_input }}`.replace(/'/g, "\\'");
+        sessionStorage.setItem('rechatQuery', originalQuery);
+        window.location.href = '{% url "dashboard" %}';
+    });
+</script>
+{% endblock %}

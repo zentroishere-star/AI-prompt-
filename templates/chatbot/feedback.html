@@ -1,0 +1,167 @@
+{% extends 'base.html' %} {% block title %}Share Your Feedback - AI Prompt Optimizer{% endblock %} {% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <!-- Back Button -->
+            <div class="mb-3">
+                <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary btn-sm">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+            </div>
+
+            <!-- Feedback Form Card -->
+            <div class="card shadow-lg">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-comments"></i> Share Your Feedback
+                    </h4>
+                    <p class="mb-0 small mt-2">Help us improve! Share your positive experience with AI Prompt Optimizer</p>
+                </div>
+                <div class="card-body p-4">
+                    <form id="feedbackForm">
+                        {% csrf_token %}
+
+                        <!-- Title Field -->
+                        <div class="mb-4">
+                            <label for="title" class="form-label fw-bold">
+                                <i class="fas fa-heading"></i> Feedback Title:
+                            </label>
+                            <input type="text" class="form-control" id="title" name="title" placeholder="e.g., Amazing AI Assistant, Very Helpful Tool" required>
+                            <small class="form-text text-muted">Give your feedback a catchy title</small>
+                        </div>
+
+                        <!-- Rating Field -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">
+                                <i class="fas fa-star"></i> Rating:
+                            </label>
+                            <div class="rating-selector">
+                                <div class="btn-group w-100" role="group">
+                                    <input type="radio" class="btn-check" name="rating" id="rating5" value="5" checked>
+                                    <label class="btn btn-outline-success" for="rating5">
+                                        <i class="fas fa-star" style="color: #ffc107;"></i>
+                                        <i class="fas fa-star" style="color: #ffc107;"></i>
+                                        <i class="fas fa-star" style="color: #ffc107;"></i>
+                                        <i class="fas fa-star" style="color: #ffc107;"></i>
+                                        <i class="fas fa-star" style="color: #ffc107;"></i>
+                                        Excellent
+                                    </label>
+
+                                    <input type="radio" class="btn-check" name="rating" id="rating4" value="4">
+                                    <label class="btn btn-outline-success" for="rating4">
+                                        <i class="fas fa-star" style="color: #ffc107;"></i>
+                                        <i class="fas fa-star" style="color: #ffc107;"></i>
+                                        <i class="fas fa-star" style="color: #ffc107;"></i>
+                                        <i class="fas fa-star" style="color: #ffc107;"></i>
+                                        Very Good
+                                    </label>
+                                </div>
+                            </div>
+                            <small class="form-text text-muted mt-2">Only 4-5 star positive feedback is accepted</small>
+                        </div>
+
+                        <!-- Message Field -->
+                        <div class="mb-4">
+                            <label for="message" class="form-label fw-bold">
+                                <i class="fas fa-pen-fancy"></i> Your Message:
+                            </label>
+                            <textarea class="form-control" id="message" name="message" rows="5" placeholder="Share your experience with AI Prompt Optimizer. What did you like the most? How has it helped you?" required></textarea>
+                            <small class="form-text text-muted">Write at least 20 characters</small>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="fas fa-paper-plane"></i> Submit Feedback
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Success Message -->
+                    <div id="successMessage" class="alert alert-success mt-3" style="display:none;">
+                        <i class="fas fa-check-circle"></i> Thank you for your feedback! Your review will help us serve you better.
+                    </div>
+
+                    <!-- Error Message -->
+                    <div id="errorMessage" class="alert alert-danger mt-3" style="display:none;">
+                        <i class="fas fa-exclamation-circle"></i> <span id="errorText"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info Card -->
+            <div class="card mt-4">
+                <div class="card-header bg-info text-white">
+                    <i class="fas fa-lightbulb"></i> Why Your Feedback Matters
+                </div>
+                <div class="card-body">
+                    <ul class="mb-0">
+                        <li>✨ Your positive feedback motivates our team to keep improving</li>
+                        <li>📱 Featured feedbacks are displayed on our home page</li>
+                        <li>🎯 Help other users discover the benefits of AI Prompt Optimizer</li>
+                        <li>💡 Your insights help us understand what's working best for you</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const title = document.getElementById('title').value.trim();
+        const message = document.getElementById('message').value.trim();
+        const rating = document.querySelector('input[name="rating"]:checked').value;
+
+        // Validate message length
+        if (message.length < 20) {
+            showError('Message must be at least 20 characters long');
+            return;
+        }
+
+        // Get CSRF token
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        // Submit form
+        fetch('{% url "feedback" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': csrftoken
+                },
+                body: new URLSearchParams({
+                    'title': title,
+                    'message': message,
+                    'rating': rating
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('feedbackForm').style.display = 'none';
+                    document.getElementById('successMessage').style.display = 'block';
+
+                    // Redirect after 3 seconds
+                    setTimeout(() => {
+                        window.location.href = '{% url "dashboard" %}';
+                    }, 3000);
+                } else {
+                    showError(data.error || 'An error occurred');
+                }
+            })
+            .catch(error => {
+                showError('Network error: ' + error);
+            });
+    });
+
+    function showError(message) {
+        document.getElementById('errorText').textContent = message;
+        document.getElementById('errorMessage').style.display = 'block';
+        setTimeout(() => {
+            document.getElementById('errorMessage').style.display = 'none';
+        }, 5000);
+    }
+</script>
+{% endblock %}

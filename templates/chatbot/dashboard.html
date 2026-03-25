@@ -1,0 +1,389 @@
+{% extends 'base.html' %} {% block title %}Dashboard - AI Prompt Optimizer{% endblock %} {% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-9 mx-auto">
+            <!-- Main Chatbot Card -->
+            <div class="card shadow-lg">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-robot"></i> AI Prompt Optimizer
+                    </h4>
+                    <p class="mb-0 small">தமிழ் | English | Tanglish - எல்லா மொழிகளிலும் எழுதுங்கள்</p>
+                </div>
+                <div class="card-body p-4">
+                    <!-- Input Area -->
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <label for="userInput" class="form-label fw-bold mb-0">
+                                <i class="fas fa-keyboard"></i> உங்கள் கேள்வியை எழுதுங்கள் (Type your query):
+                            </label>
+                            <div>
+                                <button class="btn btn-sm btn-outline-primary" id="voiceInputBtn" title="Click to speak">
+                                    <i class="fas fa-microphone"></i> Speak
+                                </button>
+                                <button class="btn btn-sm btn-outline-secondary" id="clearInputBtn" title="Clear text">
+                                    <i class="fas fa-times"></i> Clear
+                                </button>
+                            </div>
+                        </div>
+                        <textarea class="form-control" id="userInput" rows="4" placeholder="Example: எனக்கு ஒரு coffee shop business plan வேணும்&#10;Or: I need help with Python code for web scraping&#10;Or: Write a poem about nature" style="font-size: 1.1rem; font-family: 'Inter', 'Noto Sans Tamil', sans-serif;"></textarea>
+                        <div class="form-text">
+                            You can write in Tamil (தமிழ்), English, or Tanglish (mix of both)! Or click the microphone button to speak.
+                        </div>
+                        <!-- Voice Status -->
+                        <div id="voiceStatus" style="display:none; margin-top: 10px;">
+                            <small class="text-info">
+                                <i class="fas fa-volume-up fa-pulse"></i> <span id="voiceStatusText">Listening...</span>
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button class="btn btn-success btn-lg w-100" id="enhanceBtn">
+                        <i class="fas fa-magic"></i> Enhance My Prompt
+                    </button>
+
+                    <!-- Loading Spinner -->
+                    <div id="loadingSpinner" class="text-center mt-4" style="display:none;">
+                        <div class="spinner-border text-success" role="status" style="width: 3rem; height: 3rem;">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-3 text-muted">
+                            <i class="fas fa-cog fa-spin"></i> Processing your request...
+                        </p>
+                    </div>
+
+                    <!-- Results Area -->
+                    <div id="resultsArea" style="display:none;" class="mt-4">
+                        <!-- Detection Info -->
+                        <div class="alert alert-info">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <strong><i class="fas fa-language"></i> Detected Language:</strong>
+                                    <span id="detectedLanguage" class="badge bg-primary ms-2"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <strong><i class="fas fa-bullseye"></i> Intent:</strong>
+                                    <span id="detectedIntent" class="badge bg-info ms-2"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Enhanced Prompt -->
+                        <div class="card mb-3 border-success">
+                            <div class="card-header bg-success text-white">
+                                <i class="fas fa-check-circle"></i> Your Enhanced Prompt
+                            </div>
+                            <div class="card-body">
+                                <pre id="enhancedPrompt" style="background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #198754; white-space: pre-wrap; font-family: 'Courier New', monospace; font-size: 0.9rem;"></pre>
+                                <button class="btn btn-sm btn-outline-success mt-2" id="copyPromptBtn">
+                                    <i class="fas fa-copy"></i> Copy Prompt
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Model Selection -->
+                        <div class="alert alert-secondary">
+                            <strong><i class="fas fa-robot"></i> Selected Model:</strong>
+                            <span id="selectedModel" class="badge bg-dark ms-2"></span>
+                            <br>
+                            <strong><i class="fas fa-info-circle"></i> Reason:</strong>
+                            <span id="modelReason"></span>
+                        </div>
+
+                        <!-- AI Response -->
+                        <div class="card" id="aiResponseCard">
+                            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                                <span><i class="fas fa-robot"></i> AI Response</span>
+                                <div>
+                                    <button class="btn btn-sm btn-light" id="speakResponseBtn" title="Listen to response">
+                                        <i class="fas fa-volume-up"></i> Listen
+                                    </button>
+                                    <button class="btn btn-sm btn-light" id="stopSpeakBtn" title="Stop listening" style="display:none;">
+                                        <i class="fas fa-stop"></i> Stop
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div id="aiResponse" style="line-height: 1.8;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tips Card -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <i class="fas fa-lightbulb text-warning"></i> Tips for Best Results
+                </div>
+                <div class="card-body">
+                    <ul class="mb-0">
+                        <li>Be specific about what you want</li>
+                        <li>Mention the purpose (business, learning, creative, etc.)</li>
+                        <li>Feel free to mix Tamil and English</li>
+                        <li>Add context when needed for better results</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Feedback Card -->
+            <div class="card mt-4">
+                <div class="card-header bg-info text-white">
+                    <i class="fas fa-heart"></i> Share Your Feedback
+                </div>
+                <div class="card-body">
+                    <p class="mb-3">Love using AI Prompt Optimizer? Share your positive experience with our community!</p>
+                    <a href="{% url 'feedback' %}" class="btn btn-info">
+                        <i class="fas fa-pen-fancy"></i> Write a Review
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} {% block extra_js %}
+<script>
+    // Voice Recognition Setup
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const voiceInputBtn = document.getElementById('voiceInputBtn');
+    const userInputTextarea = document.getElementById('userInput');
+    const voiceStatus = document.getElementById('voiceStatus');
+    const voiceStatusText = document.getElementById('voiceStatusText');
+    const clearInputBtn = document.getElementById('clearInputBtn');
+    let recognition;
+
+    if (SpeechRecognition) {
+        recognition = new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = true;
+        recognition.lang = 'en-US';
+
+        recognition.onstart = function() {
+            voiceStatus.style.display = 'block';
+            voiceStatusText.textContent = 'Listening...';
+            voiceInputBtn.disabled = true;
+            voiceInputBtn.classList.add('btn-danger');
+            voiceInputBtn.classList.remove('btn-outline-primary');
+            voiceInputBtn.innerHTML = '<i class="fas fa-microphone-slash"></i> Stop';
+        };
+
+        recognition.onresult = function(event) {
+            let interimTranscript = '';
+            for (let i = event.resultIndex; i < event.results.length; i++) {
+                const transcript = event.results[i][0].transcript;
+                if (event.results[i].isFinal) {
+                    userInputTextarea.value += transcript + ' ';
+                } else {
+                    interimTranscript += transcript;
+                }
+            }
+            if (interimTranscript) {
+                voiceStatusText.textContent = 'Interim: ' + interimTranscript;
+            }
+        };
+
+        recognition.onerror = function(event) {
+            voiceStatusText.textContent = 'Error: ' + event.error;
+            console.error('Speech recognition error', event.error);
+        };
+
+        recognition.onend = function() {
+            voiceStatus.style.display = 'none';
+            voiceInputBtn.disabled = false;
+            voiceInputBtn.classList.remove('btn-danger');
+            voiceInputBtn.classList.add('btn-outline-primary');
+            voiceInputBtn.innerHTML = '<i class="fas fa-microphone"></i> Speak';
+        };
+
+        voiceInputBtn.addEventListener('click', function() {
+            if (recognition.isRunning) {
+                recognition.abort();
+                recognition.isRunning = false;
+            } else {
+                recognition.start();
+                recognition.isRunning = true;
+            }
+        });
+    } else {
+        voiceInputBtn.disabled = true;
+        voiceInputBtn.title = 'Speech recognition not supported in this browser';
+    }
+
+    // Clear button
+    clearInputBtn.addEventListener('click', function() {
+        userInputTextarea.value = '';
+        userInputTextarea.focus();
+    });
+
+    // Get CSRF token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    const csrftoken = getCookie('csrftoken');
+
+    // Check if we're re-chatting from history
+    const rechatQuery = sessionStorage.getItem('rechatQuery');
+    if (rechatQuery) {
+        document.getElementById('userInput').value = rechatQuery;
+        sessionStorage.removeItem('rechatQuery');
+        document.getElementById('userInput').focus();
+    }
+
+    // Enhance button click
+    document.getElementById('enhanceBtn').addEventListener('click', function() {
+        const userInput = document.getElementById('userInput').value.trim();
+
+        if (!userInput) {
+            alert('Please enter your query first!');
+            return;
+        }
+
+        // Show loading
+        document.getElementById('loadingSpinner').style.display = 'block';
+        document.getElementById('resultsArea').style.display = 'none';
+        this.disabled = true;
+
+        // Make API call
+        fetch('{% url "enhance_api" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken
+                },
+                body: JSON.stringify({
+                    user_input: userInput
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Hide loading
+                document.getElementById('loadingSpinner').style.display = 'none';
+                document.getElementById('enhanceBtn').disabled = false;
+
+                if (data.success) {
+                    // Show results
+                    document.getElementById('resultsArea').style.display = 'block';
+
+                    // Fill data
+                    document.getElementById('detectedLanguage').textContent = data.detected_language;
+                    document.getElementById('detectedIntent').textContent = data.detected_intent.replace('_', ' ');
+                    document.getElementById('enhancedPrompt').textContent = data.enhanced_prompt;
+                    document.getElementById('selectedModel').textContent = data.model_info.name;
+                    document.getElementById('modelReason').textContent = data.model_info.reason;
+
+                    // AI response
+                    const aiResponseHtml = data.ai_response.replace(/\n/g, '<br>');
+                    document.getElementById('aiResponse').innerHTML = aiResponseHtml;
+
+                    // Store response for text-to-speech
+                    document.getElementById('aiResponse').dataset.plainText = data.ai_response;
+
+                    // Scroll to results
+                    document.getElementById('resultsArea').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+
+                    // Update credits in navbar
+                    alert('Prompt enhanced! Credits remaining: ' + data.remaining_credits);
+                } else {
+                    alert('Error: ' + (data.error || 'Unknown error'));
+                }
+            })
+            .catch(error => {
+                document.getElementById('loadingSpinner').style.display = 'none';
+                document.getElementById('enhanceBtn').disabled = false;
+                alert('Error: ' + error);
+            });
+    });
+
+    // Copy prompt button
+    document.getElementById('copyPromptBtn').addEventListener('click', function() {
+        const promptText = document.getElementById('enhancedPrompt').textContent;
+
+        navigator.clipboard.writeText(promptText).then(() => {
+            this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            setTimeout(() => {
+                this.innerHTML = '<i class="fas fa-copy"></i> Copy Prompt';
+            }, 2000);
+        });
+    });
+
+    // Text-to-Speech Setup
+    const speakResponseBtn = document.getElementById('speakResponseBtn');
+    const stopSpeakBtn = document.getElementById('stopSpeakBtn');
+
+    speakResponseBtn.addEventListener('click', function() {
+        const aiResponseText = document.getElementById('aiResponse').dataset.plainText ||
+            document.getElementById('aiResponse').innerText;
+
+        if (!aiResponseText || aiResponseText.trim() === '') {
+            alert('No response to read. Generate a response first!');
+            return;
+        }
+
+        // Use Web Speech API for Text-to-Speech
+        if ('speechSynthesis' in window) {
+            // Cancel any previous speech
+            speechSynthesis.cancel();
+
+            const utterance = new SpeechSynthesisUtterance(aiResponseText);
+
+            // Detect language and set appropriate voice
+            const detectedLang = document.getElementById('detectedLanguage').textContent;
+            if (detectedLang === 'tamil') {
+                utterance.lang = 'ta-IN'; // Tamil
+            } else if (detectedLang === 'tanglish') {
+                utterance.lang = 'en-IN'; // English India
+            } else {
+                utterance.lang = 'en-US'; // English US
+            }
+
+            utterance.rate = 0.9;
+            utterance.pitch = 1;
+            utterance.volume = 1;
+
+            utterance.onstart = function() {
+                speakResponseBtn.style.display = 'none';
+                stopSpeakBtn.style.display = 'inline-block';
+            };
+
+            utterance.onend = function() {
+                speakResponseBtn.style.display = 'inline-block';
+                stopSpeakBtn.style.display = 'none';
+            };
+
+            utterance.onerror = function(event) {
+                console.error('Speech synthesis error:', event.error);
+                alert('Text-to-Speech error: ' + event.error);
+                speakResponseBtn.style.display = 'inline-block';
+                stopSpeakBtn.style.display = 'none';
+            };
+
+            speechSynthesis.speak(utterance);
+        } else {
+            alert('Text-to-Speech not supported in this browser');
+        }
+    });
+
+    stopSpeakBtn.addEventListener('click', function() {
+        if ('speechSynthesis' in window) {
+            speechSynthesis.cancel();
+            speakResponseBtn.style.display = 'inline-block';
+            stopSpeakBtn.style.display = 'none';
+        }
+    });
+</script>
+{% endblock %}

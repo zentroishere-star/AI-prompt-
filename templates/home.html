@@ -1,0 +1,401 @@
+{% extends 'base.html' %} {% block content %}
+<!-- Hero Section with Advanced Animations -->
+<div class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6" style="animation: fadeInUp 1s ease-out;">
+                <h1 class="display-4 fw-bold mb-4">
+                    Transform Your Ideas into <span class="text-gradient" style="display: inline-block; animation: pulse 2s ease-in-out infinite;">Perfect AI Prompts</span>
+                </h1>
+                <p class="lead mb-4" style="animation: fadeInUp 1s ease-out 0.2s both;">
+                    Write in <span class="text-success fw-bold" style="text-shadow: 0 0 20px rgba(0, 255, 136, 0.6);">Tamil</span>,
+                    <span class="text-primary fw-bold" style="text-shadow: 0 0 20px rgba(0, 212, 255, 0.6);">English</span>, or
+                    <span class="text-warning fw-bold" style="text-shadow: 0 0 20px rgba(255, 170, 0, 0.6);">Tanglish</span>!
+                </p>
+                <p class="mb-4" style="font-size: 1.3rem; font-family: 'Noto Sans Tamil', sans-serif; animation: fadeInUp 1s ease-out 0.4s both;">
+                    <span style="color: #00ff88;">தமிழில் எழுதுங்கள்</span> |
+                    <span style="color: #00d4ff;">Write in English</span> |
+                    <span style="color: #ffaa00;">Mix pannunga!</span>
+                </p>
+                <div class="d-grid gap-2 d-md-flex" style="animation: fadeInUp 1s ease-out 0.6s both;">
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'dashboard' %}" class="btn btn-success btn-lg">
+                        <i class="fas fa-rocket"></i> Go to Dashboard
+                    </a>
+                    {% else %}
+                    <a href="{% url 'register' %}" class="btn btn-success btn-lg">
+                        <i class="fas fa-user-plus"></i> Get Started Free
+                    </a>
+                    <a href="{% url 'login' %}" class="btn btn-outline-success btn-lg">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-6" style="animation: fadeInUp 1s ease-out 0.8s both;">
+                <div class="card shadow-lg" style="animation: cardReveal 1s ease-out 1s both;">
+                    <div class="card-body p-4">
+                        <h5 class="card-title mb-4">
+                            <i class="fas fa-magic text-success"></i> How It Works
+                        </h5>
+                        <div class="steps-container">
+                            <div class="step-item mb-3" style="animation: slideInLeft 0.8s ease-out 1.2s both;">
+                                <div class="d-flex align-items-start">
+                                    <div class="step-number" style="min-width: 40px; min-height: 40px; background: linear-gradient(135deg, #00ff88, #00d4ff); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-family: 'Orbitron', sans-serif; font-weight: 700; box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);">1</div>
+                                    <div>
+                                        <strong>Type your query</strong> in any language
+                                        <div class="text-muted" style="font-size: 0.9rem;">Tamil, English, or Tanglish</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="step-item mb-3" style="animation: slideInLeft 0.8s ease-out 1.4s both;">
+                                <div class="d-flex align-items-start">
+                                    <div class="step-number" style="min-width: 40px; min-height: 40px; background: linear-gradient(135deg, #00d4ff, #ff00ff); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-family: 'Orbitron', sans-serif; font-weight: 700; box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);">2</div>
+                                    <div>
+                                        <strong>AI analyzes</strong> your intent
+                                        <div class="text-muted" style="font-size: 0.9rem;">Understanding context & goals</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="step-item mb-3" style="animation: slideInLeft 0.8s ease-out 1.6s both;">
+                                <div class="d-flex align-items-start">
+                                    <div class="step-number" style="min-width: 40px; min-height: 40px; background: linear-gradient(135deg, #ff00ff, #ffaa00); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-family: 'Orbitron', sans-serif; font-weight: 700; box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);">3</div>
+                                    <div>
+                                        <strong>Get enhanced prompt</strong> optimized for results
+                                        <div class="text-muted" style="font-size: 0.9rem;">Professional-grade refinement</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="step-item" style="animation: slideInLeft 0.8s ease-out 1.8s both;">
+                                <div class="d-flex align-items-start">
+                                    <div class="step-number" style="min-width: 40px; min-height: 40px; background: linear-gradient(135deg, #ffaa00, #00ff88); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-family: 'Orbitron', sans-serif; font-weight: 700; box-shadow: 0 0 20px rgba(255, 170, 0, 0.5);">4</div>
+                                    <div>
+                                        <strong>Receive AI response</strong> from best model
+                                        <div class="text-muted" style="font-size: 0.9rem;">Intelligent model selection</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @keyframes slideInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    @keyframes pulse {
+        0%,
+        100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.05);
+        }
+    }
+</style>
+
+<!-- Features Section -->
+<div class="container py-5">
+    <h2 class="text-center mb-5" style="font-family: 'Orbitron', sans-serif; font-weight: 700; background: linear-gradient(135deg, #00ff88, #00d4ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+        Why Choose AI Prompt Master?
+    </h2>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card h-100 text-center features-card">
+                <div class="card-body p-4">
+                    <div class="icon-wrapper" style="position: relative; display: inline-block; margin-bottom: 1.5rem;">
+                        <i class="fas fa-language fa-3x text-success"></i>
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100px; height: 100px; background: radial-gradient(circle, rgba(0, 255, 136, 0.2), transparent); border-radius: 50%; animation: iconPulse 2s ease-in-out infinite; z-index: -1;"></div>
+                    </div>
+                    <h5 style="font-family: 'Orbitron', sans-serif; font-weight: 700; color: #00ff88;">Multilingual Support</h5>
+                    <p class="text-muted">First AI tool that truly understands Tamil, English, and Tanglish seamlessly!</p>
+                    <div class="mt-3" style="display: flex; justify-content: center; gap: 10px;">
+                        <span class="badge" style="background: linear-gradient(135deg, #00ff88, #00d4ff); padding: 5px 15px; border-radius: 20px;">Tamil</span>
+                        <span class="badge" style="background: linear-gradient(135deg, #00d4ff, #ff00ff); padding: 5px 15px; border-radius: 20px;">English</span>
+                        <span class="badge" style="background: linear-gradient(135deg, #ff00ff, #ffaa00); padding: 5px 15px; border-radius: 20px;">Tanglish</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 text-center features-card">
+                <div class="card-body p-4">
+                    <div class="icon-wrapper" style="position: relative; display: inline-block; margin-bottom: 1.5rem;">
+                        <i class="fas fa-robot fa-3x text-primary"></i>
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100px; height: 100px; background: radial-gradient(circle, rgba(0, 212, 255, 0.2), transparent); border-radius: 50%; animation: iconPulse 2s ease-in-out infinite 0.5s; z-index: -1;"></div>
+                    </div>
+                    <h5 style="font-family: 'Orbitron', sans-serif; font-weight: 700; color: #00d4ff;">Smart AI Selection</h5>
+                    <p class="text-muted">Automatically picks the best free AI model tailored for your specific task!</p>
+                    <div class="mt-3">
+                        <div class="progress" style="height: 8px; background: rgba(0, 212, 255, 0.2); border-radius: 10px;">
+                            <div class="progress-bar" style="width: 95%; background: linear-gradient(90deg, #00d4ff, #ff00ff); border-radius: 10px; animation: progressGrow 2s ease-out;"></div>
+                        </div>
+                        <small class="text-muted mt-2 d-block">95% Accuracy</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 text-center features-card">
+                <div class="card-body p-4">
+                    <div class="icon-wrapper" style="position: relative; display: inline-block; margin-bottom: 1.5rem;">
+                        <i class="fas fa-graduation-cap fa-3x text-warning"></i>
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100px; height: 100px; background: radial-gradient(circle, rgba(255, 170, 0, 0.2), transparent); border-radius: 50%; animation: iconPulse 2s ease-in-out infinite 1s; z-index: -1;"></div>
+                    </div>
+                    <h5 style="font-family: 'Orbitron', sans-serif; font-weight: 700; color: #ffaa00;">Learn Prompting</h5>
+                    <p class="text-muted">See exactly how we improve your prompts and master the art of AI communication!</p>
+                    <div class="mt-3" style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                        <i class="fas fa-book" style="color: #ffaa00;"></i>
+                        <i class="fas fa-arrow-right" style="color: #ff00ff;"></i>
+                        <i class="fas fa-lightbulb" style="color: #00ff88;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @keyframes iconPulse {
+        0%,
+        100% {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0.5;
+        }
+        50% {
+            transform: translate(-50%, -50%) scale(1.5);
+            opacity: 0.8;
+        }
+    }
+    
+    @keyframes progressGrow {
+        from {
+            width: 0;
+        }
+        to {
+            width: 95%;
+        }
+    }
+</style>
+
+<!-- Stats Section -->
+<div class="container py-5">
+    <div class="row text-center">
+        <div class="col-md-3 mb-4">
+            <div class="stat-card" style="padding: 2rem; background: rgba(31, 40, 71, 0.6); border-radius: 20px; border: 1px solid rgba(0, 255, 136, 0.2); transition: all 0.3s ease;">
+                <div style="font-family: 'Orbitron', sans-serif; font-size: 3rem; font-weight: 900; background: linear-gradient(135deg, #00ff88, #00d4ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" data-counter="10000">0</div>
+                <div class="text-muted mt-2">Prompts Generated</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="stat-card" style="padding: 2rem; background: rgba(31, 40, 71, 0.6); border-radius: 20px; border: 1px solid rgba(0, 212, 255, 0.2); transition: all 0.3s ease;">
+                <div style="font-family: 'Orbitron', sans-serif; font-size: 3rem; font-weight: 900; background: linear-gradient(135deg, #00d4ff, #ff00ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" data-counter="5000">0</div>
+                <div class="text-muted mt-2">Happy Users</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="stat-card" style="padding: 2rem; background: rgba(31, 40, 71, 0.6); border-radius: 20px; border: 1px solid rgba(255, 0, 255, 0.2); transition: all 0.3s ease;">
+                <div style="font-family: 'Orbitron', sans-serif; font-size: 3rem; font-weight: 900; background: linear-gradient(135deg, #ff00ff, #ffaa00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" data-counter="3">0</div>
+                <div class="text-muted mt-2">Languages Supported</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="stat-card" style="padding: 2rem; background: rgba(31, 40, 71, 0.6); border-radius: 20px; border: 1px solid rgba(255, 170, 0, 0.2); transition: all 0.3s ease;">
+                <div style="font-family: 'Orbitron', sans-serif; font-size: 3rem; font-weight: 900; background: linear-gradient(135deg, #ffaa00, #00ff88); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">100%</div>
+                <div class="text-muted mt-2">Free Forever</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .stat-card:hover {
+        transform: translateY(-10px) scale(1.05);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 30px rgba(0, 255, 136, 0.3);
+    }
+</style>
+
+<!-- Customer Feedback Section -->
+<div class="container my-5" style="position: relative; z-index: 1;">
+    <div class="text-center mb-5" style="animation: fadeInUp 0.8s ease-out;">
+        <h2 class="mb-2" style="font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 2.5rem;">
+            <i class="fas fa-heart text-danger"></i> What Users Love
+        </h2>
+        <p class="lead text-muted">Join thousands of satisfied users sharing their positive experiences</p>
+    </div>
+
+    <!-- Feedbacks Container -->
+    <div id="feedbacksContainer" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+        <!-- Feedbacks will be loaded here via JavaScript -->
+        <div class="text-center py-5">
+            <div class="spinner-border text-success" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Empty State (if no feedbacks) -->
+    <div id="emptyFeedback" class="text-center py-5" style="display: none;">
+        <i class="fas fa-inbox fa-4x text-muted mb-3"></i>
+        <h5>No feedback yet</h5>
+        <p class="text-muted">Be the first to share your experience!</p>
+    </div>
+
+    <!-- Share Feedback Button -->
+    <div class="text-center mt-5">
+        {% if user.is_authenticated %}
+        <a href="{% url 'feedback' %}" class="btn btn-success btn-lg">
+            <i class="fas fa-pen-fancy"></i> Share Your Feedback
+        </a>
+        {% else %}
+        <p class="text-muted mb-3">Sign in to share your feedback with our community</p>
+        <a href="{% url 'login' %}" class="btn btn-success btn-lg">
+            <i class="fas fa-sign-in-alt"></i> Sign In
+        </a>
+        {% endif %}
+    </div>
+</div>
+
+{% if not user.is_authenticated %}
+<!-- CTA Section -->
+<div class="cta-section py-5">
+    <div class="container text-center" style="position: relative; z-index: 1;">
+        <h2 class="mb-4" style="font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 2.5rem; animation: fadeInUp 0.8s ease-out;">
+            Ready to Get Started?
+        </h2>
+        <p class="lead mb-4" style="font-size: 1.3rem; animation: fadeInUp 0.8s ease-out 0.2s both;">
+            Sign up now and get <strong style="font-size: 1.5rem; text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);">100 free credits</strong>!
+        </p>
+        <a href="{% url 'register' %}" class="btn btn-light btn-lg" style="animation: fadeInUp 0.8s ease-out 0.4s both; font-size: 1.2rem; padding: 15px 40px;">
+            <i class="fas fa-user-plus"></i> Create Free Account
+        </a>
+
+        <div class="mt-5" style="animation: fadeInUp 0.8s ease-out 0.6s both;">
+            <div class="d-flex justify-content-center gap-4 flex-wrap">
+                <div class="feature-badge" style="background: rgba(255, 255, 255, 0.2); padding: 10px 20px; border-radius: 30px; backdrop-filter: blur(10px);">
+                    <i class="fas fa-check-circle"></i> No Credit Card Required
+                </div>
+                <div class="feature-badge" style="background: rgba(255, 255, 255, 0.2); padding: 10px 20px; border-radius: 30px; backdrop-filter: blur(10px);">
+                    <i class="fas fa-check-circle"></i> Instant Access
+                </div>
+                <div class="feature-badge" style="background: rgba(255, 255, 255, 0.2); padding: 10px 20px; border-radius: 30px; backdrop-filter: blur(10px);">
+                    <i class="fas fa-check-circle"></i> 100% Free
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<script>
+    // Load positive feedbacks with live updates
+    async function loadFeedbacks() {
+        try {
+            const response = await fetch('{% url "get_feedbacks" %}');
+            if (!response.ok) {
+                throw new Error('Failed to fetch feedbacks');
+            }
+            const data = await response.json();
+            const container = document.getElementById('feedbacksContainer');
+            const emptyState = document.getElementById('emptyFeedback');
+
+            if (data.feedbacks && data.feedbacks.length > 0) {
+                container.innerHTML = data.feedbacks.map(feedback => `
+                    <div class="feedback-card" style="background: rgba(31, 40, 71, 0.6); border-radius: 15px; border: 1px solid rgba(0, 255, 136, 0.2); padding: 1.5rem; animation: slideInUp 0.6s ease-out; transition: all 0.3s ease;">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                                <h6 class="mb-1 fw-bold">${feedback.user}</h6>
+                                <small class="text-muted">${feedback.created_at}</small>
+                            </div>
+                            <div style="font-size: 0.9rem; color: #ffc107;">
+                                ${'⭐'.repeat(feedback.rating)}
+                            </div>
+                        </div>
+                        <h5 class="card-title mb-2" style="color: #00ff88;">${feedback.title}</h5>
+                        <p class="card-text text-light" style="line-height: 1.6; font-size: 0.95rem;">"${feedback.message}"</p>
+                        <div style="border-top: 1px solid rgba(0, 255, 136, 0.2); padding-top: 1rem; margin-top: 1rem;">
+                            <small class="text-success">
+                                <i class="fas fa-thumbs-up"></i> Verified User
+                            </small>
+                        </div>
+                    </div>
+                `).join('');
+                emptyState.style.display = 'none';
+            } else {
+                container.innerHTML = '';
+                emptyState.style.display = 'block';
+            }
+        } catch (error) {
+            console.error('Error loading feedbacks:', error);
+            const container = document.getElementById('feedbacksContainer');
+            const emptyState = document.getElementById('emptyFeedback');
+            container.innerHTML = '';
+            emptyState.style.display = 'block';
+        }
+    }
+
+    // Load feedbacks on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        loadFeedbacks();
+
+        // Refresh feedbacks every 30 seconds for live updates
+        setInterval(loadFeedbacks, 30000);
+    });
+
+    // Add hover effects to stat cards
+    document.querySelectorAll('.stat-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.borderColor = 'rgba(0, 255, 136, 0.8)';
+        });
+
+        card.addEventListener('mouseleave', function() {
+            const colors = [
+                'rgba(0, 255, 136, 0.2)',
+                'rgba(0, 212, 255, 0.2)',
+                'rgba(255, 0, 255, 0.2)',
+                'rgba(255, 170, 0, 0.2)'
+            ];
+            const index = Array.from(this.parentElement.parentElement.children).indexOf(this.parentElement);
+            this.style.borderColor = colors[index];
+        });
+    });
+
+    // Add styles for feedback cards animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .feedback-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 255, 136, 0.6);
+            box-shadow: 0 20px 40px rgba(0, 255, 136, 0.2);
+        }
+    `;
+    document.head.appendChild(style);
+</script>
+
+{% endblock %}

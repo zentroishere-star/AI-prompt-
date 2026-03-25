@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AI Prompt Master - Transform Ideas into Perfect Prompts{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Fonts - Distinctive Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;700&family=Noto+Sans+Tamil:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style1.css' %}">
+
+    <style>
+        /* Preloader */
+        
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a0e27 0%, #1f2847 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        
+        .preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .loader {
+            width: 80px;
+            height: 80px;
+            border: 4px solid rgba(0, 255, 136, 0.2);
+            border-top: 4px solid #00ff88;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
+        }
+        
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .loader-text {
+            position: absolute;
+            margin-top: 120px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            color: #00ff88;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div>
+            <div class="loader"></div>
+            <div class="loader-text">Loading</div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <i class="fas fa-brain"></i> AI Prompt Master
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'dashboard' %}">
+                            <i class="fas fa-comments"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'history' %}">
+                            <i class="fas fa-history"></i> History
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <span class="nav-link text-warning">
+                            <i class="fas fa-coins"></i> Credits: <span data-counter="{{ user.userprofile.credits }}">{{ user.userprofile.credits }}</span>
+                        </span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'profile' %}">
+                            <i class="fas fa-user"></i> {{ user.username }}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-light ms-2" href="{% url 'register' %}">
+                            <i class="fas fa-user-plus"></i> Register
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Messages -->
+    {% if messages %}
+    <div class="container mt-3">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            <i class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'danger' %}exclamation-circle{% else %}info-circle{% endif %}"></i> {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <h5 class="text-gradient" style="font-family: 'Orbitron', sans-serif;">AI Prompt Master</h5>
+                    <p class="mb-0">Transform your ideas into perfect AI prompts</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="mb-2">&copy; 2024 AI Prompt Optimizer by Prakash</p>
+                    <small class="text-gradient">100% Free • Tamil + English + Tanglish Support</small>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <div class="social-links">
+                        <a href="#" class="text-white mx-2" style="font-size: 1.5rem; transition: all 0.3s ease;">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="text-white mx-2" style="font-size: 1.5rem; transition: all 0.3s ease;">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-white mx-2" style="font-size: 1.5rem; transition: all 0.3s ease;">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+    {% load static %}
+    <script src="{% static 'js/main1.js' %}"></script>
+
+    <!-- Preloader Script -->
+    <script>
+        window.addEventListener('load', function() {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.classList.add('hidden');
+            }, 500);
+        });
+
+        // Add hover effects to social links
+        document.querySelectorAll('.social-links a').forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.2) translateY(-5px)';
+                this.style.color = '#00ff88';
+                this.style.textShadow = '0 0 20px rgba(0, 255, 136, 0.8)';
+            });
+
+            link.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1) translateY(0)';
+                this.style.color = '#ffffff';
+                this.style.textShadow = 'none';
+            });
+        });
+    </script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>
